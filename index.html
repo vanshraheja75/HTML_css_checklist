@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Revision & Mastery Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .checklist-item {
+                page-break-inside: avoid;
+            }
+        }
+        .flowchart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 1rem;
+            position: relative;
+        }
+        .flow-box {
+            background-color: #f3f4f6;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+        .flow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-color: #4f46e5;
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #9ca3af;
+            margin: 0 1rem;
+            align-self: center;
+        }
+        @media (max-width: 768px) {
+            .flowchart {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-8 print-container">
+        <div class="bg-white rounded-xl shadow-lg p-6 sm:p-10">
+            
+            <!-- Header Section -->
+            <header class="text-center mb-10 border-b pb-6">
+                <h1 class="text-4xl sm:text-5xl font-bold text-gray-800">HTML Mastery Checklist</h1>
+                <p class="text-lg text-gray-500 mt-2">Your roadmap from fundamentals to pro-level HTML.</p>
+                <button onclick="window.print()" class="no-print mt-6 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                    Save or Print as PDF
+                </button>
+            </header>
+
+            <!-- Flowchart Visualization -->
+            <div class="mb-12 no-print">
+                <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Learning Progression Path</h2>
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <div class="flow-box">
+                            <h3 class="font-bold text-indigo-700">Level 1</h3>
+                            <p class="text-sm text-gray-600">Core Fundamentals</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-step">
+                        <div class="flow-box">
+                            <h3 class="font-bold text-indigo-700">Level 2</h3>
+                            <p class="text-sm text-gray-600">Semantic & Structural</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-step">
+                        <div class="flow-box">
+                            <h3 class="font-bold text-indigo-700">Level 3</h3>
+                            <p class="text-sm text-gray-600">Forms & Interactivity</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-step">
+                        <div class="flow-box">
+                            <h3 class="font-bold text-indigo-700">Level 4</h3>
+                            <p class="text-sm text-gray-600">Advanced & Modern</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checklist Levels -->
+            <div class="space-y-12">
+
+                <!-- Level 1: Core Fundamentals -->
+                <section>
+                    <h2 class="text-2xl font-bold border-l-4 border-indigo-500 pl-4 mb-6">Level 1: Core Fundamentals (Quick Revision)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-doctype" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;!DOCTYPE html&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-html" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;html&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-head" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;head&gt;</code> & its purpose</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-body" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;body&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-title" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;title&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-meta" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;meta&gt;</code> (charset, viewport)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-link" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;link&gt;</code> for CSS</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-script" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;script&gt;</code> for JS</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-headings" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Headings (<code>&lt;h1&gt;</code> - <code>&lt;h6&gt;</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-p" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Paragraphs (<code>&lt;p&gt;</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-a" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Links (<code>&lt;a&gt;</code> with href, target)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-img" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Images (<code>&lt;img&gt;</code> with src, alt)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-br-hr" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;br&gt;</code> & <code>&lt;hr&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-format" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;code&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-sub-sup" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;sub&gt;</code> & <code>&lt;sup&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-ul" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Unordered Lists (<code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-ol" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Ordered Lists (<code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-div-span" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;div&gt;</code> & <code>&lt;span&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l1-comments" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Comments <code>&lt;!-- --&gt;</code></span></label></div>
+                    </div>
+                </section>
+
+                <!-- Level 2: Semantic & Structural -->
+                <section>
+                    <h2 class="text-2xl font-bold border-l-4 border-indigo-500 pl-4 mb-6">Level 2: Semantic & Structural HTML (Deep Dive)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-header-footer" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;header&gt;</code> & <code>&lt;footer&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-nav-main" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;nav&gt;</code> & <code>&lt;main&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-section-article" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;section&gt;</code> & <code>&lt;article&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-aside" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;aside&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-figure" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;figure&gt;</code> & <code>&lt;figcaption&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-blockquote" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;blockquote&gt;</code> & <code>&lt;cite&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-address" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;address&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-dl" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Description Lists (<code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-table-caption" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;table&gt;</code> & <code>&lt;caption&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-thead-tbody" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tfoot&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-tr-th-td" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>, <code>&lt;td&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l2-colspan" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>colspan</code> & <code>rowspan</code></span></label></div>
+                    </div>
+                </section>
+
+                <!-- Level 3: Forms & Interactivity -->
+                <section>
+                    <h2 class="text-2xl font-bold border-l-4 border-indigo-500 pl-4 mb-6">Level 3: Forms & Interactivity (Mastery)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-form" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;form&gt;</code> (action, method)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-fieldset" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;fieldset&gt;</code> & <code>&lt;legend&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-label" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;label&gt;</code> (and <code>for</code> attribute)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-input-text" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;input&gt;</code> (text, password, submit)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-input-check" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;input&gt;</code> (radio, checkbox)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-textarea-button" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;textarea&gt;</code> & <code>&lt;button&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-html5-inputs1" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>HTML5 Inputs (email, tel, number)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-html5-inputs2" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>HTML5 Inputs (date, range, color)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-select" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;select&gt;</code>, <code>&lt;option&gt;</code>, <code>&lt;optgroup&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-datalist" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;datalist&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-validation1" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Validation (required, min, max)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l3-validation2" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Validation (pattern, placeholder)</span></label></div>
+                    </div>
+                </section>
+
+                <!-- Level 4: Advanced & Modern -->
+                <section>
+                    <h2 class="text-2xl font-bold border-l-4 border-indigo-500 pl-4 mb-6">Level 4: Advanced & Modern HTML (Pro Level)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-media" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;audio&gt;</code> & <code>&lt;video&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-responsive-img" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Responsive Images (<code>srcset</code>, <code>sizes</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-picture" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;picture&gt;</code> element</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-a11y-alt" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Accessibility (A11y): Correct alt text</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-a11y-aria" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Accessibility (A11y): ARIA roles</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-iframe" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;iframe&gt;</code> (and security)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-details" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;details&gt;</code> & <code>&lt;summary&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-dialog" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span><code>&lt;dialog&gt;</code> & <code>&lt;template&gt;</code></span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-global-id" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Global Attributes (<code>id</code>, <code>class</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-global-data" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Global Attributes (<code>data-*</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-global-tabindex" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Global Attributes (<code>tabindex</code>)</span></label></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3"><input type="checkbox" id="l4-global-contenteditable" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span>Global Attributes (<code>contenteditable</code>)</span></label></div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for saving checkbox state -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all checkboxes in the document
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            // Function to load the saved state from localStorage
+            const loadState = () => {
+                checkboxes.forEach(checkbox => {
+                    // Check if the checkbox has an ID
+                    if (checkbox.id) {
+                        // Get the saved state ('true' or 'false') from localStorage
+                        const isChecked = localStorage.getItem(checkbox.id) === 'true';
+                        // Apply the saved state to the checkbox
+                        checkbox.checked = isChecked;
+                    }
+                });
+            };
+
+            // Function to save the state of a checkbox to localStorage
+            const saveState = (event) => {
+                const checkbox = event.target;
+                // Ensure the checkbox has an ID before saving
+                if (checkbox.id) {
+                    // Save the current state (true/false) using the ID as the key
+                    localStorage.setItem(checkbox.id, checkbox.checked);
+                }
+            };
+
+            // Attach an event listener to each checkbox
+            checkboxes.forEach(checkbox => {
+                // When a checkbox's value changes, call the saveState function
+                checkbox.addEventListener('change', saveState);
+            });
+
+            // Load the initial state of all checkboxes when the page is first loaded
+            loadState();
+        });
+    </script>
+
+</body>
+</html>
