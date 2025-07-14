@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Checklists</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom Checkbox Styles */
+        .custom-checkbox:checked {
+            background-color: #4F46E5;
+            border-color: #4F46E5;
+        }
+        .custom-checkbox:checked + span {
+            text-decoration: line-through;
+            color: #6B7280;
+        }
+        /* Progress Bar Animation */
+        .progress-bar div {
+            transition: width 0.5s ease-in-out;
+        }
+        /* Active Nav Button */
+        .nav-btn-active {
+            background-color: #4F46E5;
+            color: white;
+        }
+        .nav-btn-inactive {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
+        .sub-nav-btn-active {
+            background-color: #6366f1;
+            color: white;
+        }
+        .sub-nav-btn-inactive {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app-container" class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Main Navigation Bar -->
+        <nav class="mb-6 bg-indigo-100 p-1.5 rounded-lg grid grid-cols-2 gap-2">
+            <button id="nav-html" class="nav-btn py-2 px-4 rounded-md font-semibold transition-colors duration-200">HTML</button>
+            <button id="nav-css" class="nav-btn py-2 px-4 rounded-md font-semibold transition-colors duration-200">CSS</button>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h1 id="main-title" class="text-3xl font-bold text-gray-900"></h1>
+                    <p class="text-gray-600 mt-1">Track your progress from beginner to pro. Your progress is saved in your browser.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button id="download-pdf" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200">
+                        Download PDF
+                    </button>
+                    <button id="reset-all-btn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200">
+                        Reset All
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sub Navigation (for HTML) -->
+        <div id="html-sub-nav" class="mb-6 bg-indigo-50 p-1.5 rounded-lg flex space-x-2 hidden">
+            <button id="sub-nav-html-topics" class="sub-nav-btn flex-1 py-2 px-4 rounded-md font-semibold transition-colors duration-200">Topics</button>
+            <button id="sub-nav-html-projects" class="sub-nav-btn flex-1 py-2 px-4 rounded-md font-semibold transition-colors duration-200">Projects</button>
+        </div>
+
+        <!-- Main Content -->
+        <main id="main-content">
+            <!-- Overall Progress -->
+            <div class="mb-8 p-4 bg-white rounded-xl shadow">
+                <h2 id="overall-progress-title" class="font-bold text-lg mb-2">Overall Progress</h2>
+                <div class="w-full bg-gray-200 rounded-full h-4 progress-bar">
+                    <div id="total-progress-bar" class="bg-indigo-600 h-4 rounded-full text-xs text-white text-center leading-4" style="width: 0%;"></div>
+                </div>
+                <p id="total-progress-text" class="text-right text-sm font-medium text-gray-600 mt-1">0% Complete</p>
+            </div>
+
+            <!-- Checklist Modules -->
+            <div id="checklist-container" class="space-y-6">
+                <!-- Modules will be injected here by JavaScript -->
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-xs text-gray-400">
+            <p>Your data is stored in this browser's local storage.</p>
+        </footer>
+
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full">
+            <h3 class="text-lg font-bold text-gray-900">Are you sure?</h3>
+            <p id="modal-text" class="text-sm text-gray-600 mt-2"></p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button id="modal-cancel-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">Cancel</button>
+                <button id="modal-confirm-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">Confirm Reset</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Checklist Data Structure
+        const checklists = {
+            html: {
+                topics: {
+                    title: "HTML Topics Checklist",
+                    storageKey: "htmlTopicsProgress",
+                    data: [
+                        { title: "Level 1: Core Fundamentals", items: ["<!DOCTYPE html>", "<html>", "<head> & its purpose", "<body>", "<title>", "<meta> (charset, viewport)", "<link> for CSS", "<script> for JS", "Headings (<h1> - <h6>)", "Paragraphs (<p>)", "Links (<a> with href, target)", "Images (<img> with src, alt)", "<br> & <hr>", "<strong>, <em>, <code>", "<sub> & <sup>", "Unordered Lists (<ul>, <li>)", "Ordered Lists (<ol>, <li>)", "<div> & <span>", "Comments <!-- -->"] },
+                        { title: "Level 2: Semantic & Structural", items: ["<header> & <footer>", "<nav> & <main>", "<section> & <article>", "<aside>", "<figure> & <figcaption>", "<blockquote> & <cite>", "<address>", "Description Lists (<dl>, <dt>, <dd>)", "<table> & <caption>", "<thead>, <tbody>, <tfoot>", "<tr>, <th>, <td>", "colspan & rowspan"] },
+                        { title: "Level 3: Forms & Interactivity", items: ["<form> (action, method)", "<fieldset> & <legend>", "<label> (and for attribute)", "<input> (text, password, submit)", "<input> (radio, checkbox)", "<textarea> & <button>", "HTML5 Inputs (email, tel, number)", "HTML5 Inputs (date, range, color)", "<select>, <option>, <optgroup>", "<datalist>", "Validation (required, min, max)", "Validation (pattern, placeholder)"] },
+                        { title: "Level 4: Advanced & Modern", items: ["<audio> & <video>", "Responsive Images (srcset, sizes)", "<picture> element", "Accessibility (A11y): Correct alt text", "Accessibility (A11y): ARIA roles", "<iframe> (and security)", "<details> & <summary>", "<dialog> & <template>", "Global Attributes (id, class)", "Global Attributes (data-*)", "Global Attributes (tabindex)", "Global Attributes (contenteditable)"] }
+                    ]
+                },
+                projects: {
+                    title: "HTML Practice Projects",
+                    storageKey: "htmlProjectsProgress",
+                    data: [
+                        { title: "1️⃣ Personal Profile / Portfolio Page", prompt: "Build a Personal Profile Page (or Portfolio) in pure HTML. Introduce yourself, showcase skills/interests, and include clear contact details using semantic, accessible markup.", items: ["Valid HTML5 doctype & lang attribute", "<head> with charset, viewport, title", "<header> with your name/title", "<nav> with placeholder links", "<main> with About Me section", "Image with alt text", "Skills/Interests list (<ul> or <ol>)", "Table for education or experience", "<footer> with mailto: and tel: links", "Use <address> tag in footer", "Use semantic tags (section, article)", "Logical heading order & keyboard-friendly nav"] },
+                        { title: "2️⃣ Product / Service Landing Page", prompt: "Create a Landing Page for any product or service. Clearly promote it with strong sections, calls-to-action, and accessible, semantic HTML.", items: ["Semantic layout (<header>, <nav>, <main>, <section>)", "Hero section with headline & CTA", "Features section with a list", "Testimonials section (<blockquote>)", "Pricing Table with <caption> & scope", "Embedded <video> or <iframe>", "<footer> with contact/social links", "Meta description & Open Graph tags (optional)"] },
+                        { title: "3️⃣ Contact Page with Form", prompt: "Build a Contact Us Page with a complete, accessible form that collects user details and preferences.", items: ["<form> with action and method", "<fieldset> and <legend>", "Inputs with <label> for Name, Email, Phone, etc.", "Radio buttons with labels", "Checkboxes with labels", "<select> dropdown with options", "<textarea> for message", "Submit and Reset buttons", "Validation attributes (required, pattern)"] },
+                        { title: "4️⃣ Blog / News Article Page", prompt: "Create a Blog Page or News Article Page with multiple articles, a sidebar, and structured, accessible HTML.", items: ["<main> containing multiple <article> elements", "Each article has headings, paragraphs, images", "Use <figure> and <figcaption> for one image", "Use <time> tag for date", "<aside> for related links/posts", "Internal anchor links in nav"] },
+                        { title: "5️⃣ Advanced Complete Website Page", prompt: "Combine all your skills to build a full-page site that could serve as a homepage for a real project.", items: ["Semantic layout with all major tags", "Hero section with CTA", "Image gallery with <figure>", "Embedded video or audio", "Full contact <form> with all input types", "<aside> for related info", "Responsive images (srcset, sizes)", "Custom data attributes (data-*)"] }
+                    ]
+                }
+            },
+            css: {
+                topics: {
+                    title: "CSS Topics Checklist",
+                    storageKey: "cssChecklistProgress",
+                    data: [
+                        { title: "Module 1: Core Concepts & Syntax", items: ["How CSS Works (Cascade, Inheritance)", "Integrating CSS (External, Internal, Inline)", "Values & Units (px, rem, vh, %)", "Colors (HEX, RGB, HSL)", "Comments"] },
+                        { title: "Module 2: Selectors & Specificity", items: ["Basic Selectors (Type, Class, ID)", "Attribute Selectors ([href])", "Combinators (Descendant, Child, Sibling)", "Pseudo-Classes (:hover, :nth-child)", "Pseudo-Elements (::before, ::after)", "Specificity Calculation & !important"] },
+                        { title: "Module 3: The Box Model & Visuals", items: ["Standard Box Model", "box-sizing: border-box", "Overflow", "Backgrounds", "Typography", "Visibility vs. Display"] },
+                        { title: "Module 4: CSS Layouts", items: ["Positioning", "z-index", "Floats & Clears (Legacy)", "Flexbox", "CSS Grid", "Multi-column Layout"] },
+                        { title: "Module 5: Responsive Design", items: ["Mobile-First vs. Desktop-First", "Media Queries (@media)", "Fluid Grids & Flexible Images"] },
+                        { title: "Module 6: Transitions, Animations & Transforms", items: ["Transitions", "2D & 3D Transforms", "Animations (@keyframes)"] },
+                        { title: "Module 7: Advanced & Modern CSS", items: ["Advanced Visuals (filter, clip-path, blend-mode)", "CSS Variables", "Calculation Functions (calc(), min(), max(), clamp())", "Logical Properties", "Container Queries", "Cascade Layers"] },
+                        { title: "Module 8: Architecture & Ecosystem", items: ["Methodologies (BEM)", "CSS Pre-processors (Sass/SCSS concept)", "CSS Frameworks (Bootstrap vs. Tailwind concept)"] }
+                    ]
+                }
+            }
+        };
+
+        // App State
+        let activeMajorView = 'html'; // 'html' or 'css'
+        let activeSubView = 'topics'; // 'topics' or 'projects'
+        let progressState = {};
+        let confirmAction = null;
+        
+        // DOM Elements
+        const mainTitle = document.getElementById('main-title');
+        const overallProgressTitle = document.getElementById('overall-progress-title');
+        const checklistContainer = document.getElementById('checklist-container');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        const resetAllBtn = document.getElementById('reset-all-btn');
+        const confirmModal = document.getElementById('confirm-modal');
+        const modalText = document.getElementById('modal-text');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+        const modalCancelBtn = document.getElementById('modal-cancel-btn');
+        const navHtmlBtn = document.getElementById('nav-html');
+        const navCssBtn = document.getElementById('nav-css');
+        const htmlSubNav = document.getElementById('html-sub-nav');
+        const subNavHtmlTopicsBtn = document.getElementById('sub-nav-html-topics');
+        const subNavHtmlProjectsBtn = document.getElementById('sub-nav-html-projects');
+
+        // --- Core Functions ---
+        
+        function getCurrentChecklist() {
+            if (activeMajorView === 'html') {
+                return checklists.html[activeSubView];
+            }
+            return checklists.css.topics; // CSS only has topics
+        }
+
+        function loadProgress() {
+            const current = getCurrentChecklist();
+            const savedProgress = localStorage.getItem(current.storageKey);
+            progressState = savedProgress ? JSON.parse(savedProgress) : {};
+        }
+
+        function saveProgress() {
+            const current = getCurrentChecklist();
+            localStorage.setItem(current.storageKey, JSON.stringify(progressState));
+        }
+
+        function switchMajorView(view) {
+            activeMajorView = view;
+            navHtmlBtn.classList.toggle('nav-btn-active', view === 'html');
+            navHtmlBtn.classList.toggle('nav-btn-inactive', view !== 'html');
+            navCssBtn.classList.toggle('nav-btn-active', view === 'css');
+            navCssBtn.classList.toggle('nav-btn-inactive', view !== 'css');
+
+            htmlSubNav.classList.toggle('hidden', view !== 'html');
+
+            // Default to 'topics' when switching major views
+            switchSubView(activeMajorView === 'html' ? 'topics' : 'topics');
+        }
+        
+        function switchSubView(subView) {
+            activeSubView = subView;
+            if (activeMajorView === 'html') {
+                subNavHtmlTopicsBtn.classList.toggle('sub-nav-btn-active', subView === 'topics');
+                subNavHtmlTopicsBtn.classList.toggle('sub-nav-btn-inactive', subView !== 'topics');
+                subNavHtmlProjectsBtn.classList.toggle('sub-nav-btn-active', subView === 'projects');
+                subNavHtmlProjectsBtn.classList.toggle('sub-nav-btn-inactive', subView !== 'projects');
+            }
+
+            const current = getCurrentChecklist();
+            mainTitle.textContent = current.title;
+            overallProgressTitle.textContent = `Overall Progress: ${current.title}`;
+            loadProgress();
+            renderChecklist();
+        }
+
+        function renderChecklist() {
+            const current = getCurrentChecklist();
+            const checklistData = current.data;
+            checklistContainer.innerHTML = '';
+            checklistData.forEach((module, moduleIndex) => {
+                const moduleId = `module-${moduleIndex}`;
+                
+                const moduleWrapper = document.createElement('div');
+                moduleWrapper.className = 'bg-white rounded-xl shadow p-4 sm:p-6';
+                
+                let moduleHeader = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-bold text-gray-800">${module.title}</h3>
+                        <button data-module-index="${moduleIndex}" class="reset-module-btn text-xs font-semibold text-gray-500 hover:text-red-600 transition-colors">Reset</button>
+                    </div>
+                `;
+
+                if (module.prompt) {
+                    moduleHeader += `<blockquote class="mt-2 mb-4 p-3 bg-gray-100 border-l-4 border-indigo-500 text-sm text-gray-700">${module.prompt}</blockquote>`;
+                }
+
+                moduleHeader += `
+                    <div class="flex items-center gap-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 progress-bar">
+                            <div id="${moduleId}-progress-bar" class="bg-indigo-500 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <span id="${moduleId}-progress-text" class="text-sm font-medium text-indigo-600 w-10 text-right">0%</span>
+                    </div>
+                `;
+                
+                const listContainer = document.createElement('div');
+                listContainer.className = 'mt-4 space-y-3';
+                listContainer.innerHTML = moduleHeader;
+
+                module.items.forEach((item, itemIndex) => {
+                    const itemId = `${moduleId}-item-${itemIndex}`;
+                    const isChecked = progressState[itemId] || false;
+
+                    const label = document.createElement('label');
+                    label.htmlFor = itemId;
+                    label.className = 'flex items-center p-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors duration-200';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = itemId;
+                    checkbox.className = 'custom-checkbox h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500';
+                    checkbox.checked = isChecked;
+
+                    const span = document.createElement('span');
+                    span.className = 'ml-3 text-gray-700';
+                    span.textContent = item;
+
+                    label.appendChild(checkbox);
+                    label.appendChild(span);
+                    listContainer.appendChild(label);
+                });
+
+                moduleWrapper.appendChild(listContainer);
+                checklistContainer.appendChild(moduleWrapper);
+            });
+            updateAllProgress();
+        }
+
+        function updateAllProgress() {
+            const current = getCurrentChecklist();
+            const checklistData = current.data;
+            let totalItems = 0;
+            let totalCheckedItems = 0;
+
+            checklistData.forEach((module, moduleIndex) => {
+                const moduleId = `module-${moduleIndex}`;
+                const moduleItems = module.items.length;
+                let checkedModuleItems = 0;
+
+                module.items.forEach((_, itemIndex) => {
+                    const itemId = `${moduleId}-item-${itemIndex}`;
+                    if (progressState[itemId]) {
+                        checkedModuleItems++;
+                    }
+                });
+
+                totalItems += moduleItems;
+                totalCheckedItems += checkedModuleItems;
+
+                const percentage = moduleItems > 0 ? (checkedModuleItems / moduleItems) * 100 : 0;
+                
+                document.getElementById(`${moduleId}-progress-bar`).style.width = `${percentage}%`;
+                document.getElementById(`${moduleId}-progress-text`).textContent = `${Math.round(percentage)}%`;
+            });
+
+            const totalPercentage = totalItems > 0 ? (totalCheckedItems / totalItems) * 100 : 0;
+            document.getElementById('total-progress-bar').style.width = `${totalPercentage}%`;
+            document.getElementById('total-progress-text').textContent = `${Math.round(totalPercentage)}% Complete`;
+        }
+        
+        function showConfirmModal(message, onConfirm) {
+            modalText.textContent = message;
+            confirmAction = onConfirm;
+            confirmModal.classList.remove('hidden');
+        }
+
+        function hideConfirmModal() {
+            confirmModal.classList.add('hidden');
+            confirmAction = null;
+        }
+
+        function handleCheckboxChange(e) {
+            if (e.target.type === 'checkbox') {
+                const itemId = e.target.id;
+                progressState[itemId] = e.target.checked;
+                updateAllProgress();
+                saveProgress();
+            }
+        }
+
+        function handleResetModule(e) {
+            if (e.target.classList.contains('reset-module-btn')) {
+                const moduleIndex = e.target.dataset.moduleIndex;
+                const current = getCurrentChecklist();
+                const checklistData = current.data;
+                const moduleTitle = checklistData[moduleIndex].title;
+                showConfirmModal(`This will reset your progress for the "${moduleTitle}" module.`, () => {
+                    checklistData[moduleIndex].items.forEach((_, itemIndex) => {
+                        const itemId = `module-${moduleIndex}-item-${itemIndex}`;
+                        delete progressState[itemId];
+                    });
+                    saveProgress();
+                    renderChecklist();
+                });
+            }
+        }
+        
+        function generatePDF() {
+            try {
+                if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+                    console.error("jsPDF library not loaded.");
+                    return;
+                }
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const current = getCurrentChecklist();
+                const checklistData = current.data;
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(20);
+                doc.text(current.title, 105, 20, { align: 'center' });
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                const totalPercentage = document.getElementById('total-progress-text').textContent;
+                doc.text(`Your Progress: ${totalPercentage}`, 105, 28, { align: 'center' });
+
+                let y = 40;
+
+                checklistData.forEach((module, moduleIndex) => {
+                    const moduleId = `module-${moduleIndex}`;
+                    if (y > 250 && moduleIndex > 0) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(14);
+                    doc.text(module.title, 14, y);
+                    y += 8;
+
+                    if (module.prompt) {
+                        doc.setFont('helvetica', 'italic');
+                        doc.setFontSize(9);
+                        const splitPrompt = doc.splitTextToSize(module.prompt, 180);
+                        doc.text(splitPrompt, 14, y);
+                        y += (splitPrompt.length * 4) + 4;
+                    }
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(11);
+                    module.items.forEach((item, itemIndex) => {
+                        const itemId = `${moduleId}-item-${itemIndex}`;
+                        const isChecked = progressState[itemId] || false;
+                        const checkbox = isChecked ? '[x]' : '[ ]';
+                        
+                        if (y > 280) {
+                            doc.addPage();
+                            y = 20;
+                        }
+                        
+                        doc.text(`${checkbox} ${item}`, 18, y);
+                        y += 7;
+                    });
+                    y += 5;
+                });
+
+                const fileName = `${current.title.replace(/ /g, '_')}.pdf`;
+                doc.save(fileName);
+            } catch (error) {
+                console.error("An error occurred during PDF generation:", error);
+            }
+        }
+
+        // --- Initialization ---
+        function initializeApp() {
+            // Event Listeners
+            navHtmlBtn.addEventListener('click', () => switchMajorView('html'));
+            navCssBtn.addEventListener('click', () => switchMajorView('css'));
+            subNavHtmlTopicsBtn.addEventListener('click', () => switchSubView('topics'));
+            subNavHtmlProjectsBtn.addEventListener('click', () => switchSubView('projects'));
+            
+            checklistContainer.addEventListener('change', handleCheckboxChange);
+            checklistContainer.addEventListener('click', handleResetModule);
+            downloadPdfBtn.addEventListener('click', generatePDF);
+            
+            resetAllBtn.addEventListener('click', () => {
+                const current = getCurrentChecklist();
+                showConfirmModal(`This will reset all your progress for the ${current.title}.`, () => {
+                    progressState = {};
+                    saveProgress();
+                    renderChecklist();
+                });
+            });
+
+            modalConfirmBtn.addEventListener('click', () => {
+                if (confirmAction) {
+                    confirmAction();
+                }
+                hideConfirmModal();
+            });
+
+            modalCancelBtn.addEventListener('click', hideConfirmModal);
+            
+            // Initial Load
+            switchMajorView('html');
+        }
+        
+        initializeApp();
+
+    </script>
+</body>
+</html>
